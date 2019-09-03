@@ -28,7 +28,10 @@ describe dept_emp;
 -- Date Type in tables  
 describe current_dept_emp;
 
--- Relationship between employees and departments tables? I don't see a column in common.
+-- Relationship between employees and departments tables? There is a non-direct relationship through dept_emp. 
+-- We are relating data together.
+describe dept_emp;
+
 -- CREATE TABLE `departments` (
   `dept_no` char(4) NOT NULL,
   `dept_name` varchar(40) NOT NULL,

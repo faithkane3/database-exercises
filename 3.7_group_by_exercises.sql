@@ -43,7 +43,9 @@ SELECT DISTINCT LOWER(
 				DATE_FORMAT(birth_date,'%m%y')
 				)
 			) 
-			AS username, first_name, last_name, birth_date
-FROM employees;
+			AS username, Count(*)
+FROM employees
+GROUP BY username
+ORDER BY username;
 -- BONUS -- How many duplicate usernames are there?
 -- There are 14,152 duplicate usernames.

@@ -33,8 +33,8 @@ SELECT COUNT(first_name) AS number, gender
 FROM employees
 WHERE first_name IN('Irena', 'Vidya', 'Maya')
 GROUP BY gender;
--- 8. Recall the query the generated usernames for the employees from the last lesson. Are there any duplicate usernames?  
--- Yes. Query without DISTINCT returns 300,024 rows, and query without DISTINCT returns 285,872 rows.
+-- 8. Recall the query that generated usernames for the employees from the last lesson. Are there any duplicate usernames?  
+-- Yes. Query without DISTINCT returns 300,024 rows, and query with DISTINCT returns 285,872 rows.
 SELECT DISTINCT LOWER(
 			CONCAT(
 				SUBSTR(first_name, 1, 1), 
@@ -43,9 +43,9 @@ SELECT DISTINCT LOWER(
 				DATE_FORMAT(birth_date,'%m%y')
 				)
 			) 
-			AS username, Count(*)
+			AS username, COUNT(*)
 FROM employees
 GROUP BY username
-ORDER BY username;
+ORDER BY COUNT(*) DESC;
 -- BONUS -- How many duplicate usernames are there?
 -- There are 14,152 duplicate usernames.

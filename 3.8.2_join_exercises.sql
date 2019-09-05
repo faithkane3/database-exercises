@@ -61,6 +61,7 @@ WHERE d.dept_no='d009' AND de.to_date='9999-01-01' AND t.to_date='9999-01-01'
 GROUP BY t.title;
 
 -- 5. Find the current salary of all current managers.
+
 SELECT d.dept_name, CONCAT(e.first_name, ' ', e.last_name) AS Name, s.salary
 FROM salaries AS s
 JOIN employees AS e
@@ -71,3 +72,7 @@ JOIN departments AS d
 ON dm.dept_no=d.dept_no
 WHERE s.to_date='9999-01-01' AND dm.to_date='9999-01-01'
 ORDER BY d.dept_name;
+
+-- 6. Find the number of employees in each department.
+
+Find the number of employees in each department.

@@ -12,6 +12,7 @@ WHERE hire_date IN (
 
 -- 2. Find all the titles held by all employees with the first name Aamod.
 -- 314 total titles, 6 unique titles
+
 SELECT titles.title
 FROM titles
 JOIN employees ON titles.emp_no=employees.emp_no
@@ -21,3 +22,16 @@ WHERE employees.first_name IN (
 			WHERE first_name='Aamod'
 
 );
+
+-- 2. Same query as above with added Count and Group By showing the 6 unique titles with counts.
+
+SELECT titles.title AS Title, COUNT(titles.title) AS 'Aamods with Title'
+FROM titles
+JOIN employees ON titles.emp_no=employees.emp_no
+WHERE employees.first_name IN (
+			SELECT first_name
+			FROM employees
+			WHERE first_name='Aamod'
+
+)
+GROUP BY titles.title;

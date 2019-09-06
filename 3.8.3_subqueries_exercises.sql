@@ -78,10 +78,10 @@ WHERE s.to_date='9999-01-01' AND s.salary >
 				FROM salaries AS s
 				);
 
+
 -- 6. How many current salaries are within 1 standard deviation of the highest salary? (Hint: you can use a built in function to calculate the standard deviation.) What percentage of all salaries is this?
 -- 78 salaries
-
-SELECT COUNT(*)
+SELECT COUNT(*), (COUNT(*)/(SELECT COUNT(*) FROM salaries AS s WHERE s.to_date>NOW()) * 100) AS Percent
 FROM salaries AS s
 WHERE s.to_date='9999-01-01' AND s.salary >
 

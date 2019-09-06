@@ -25,9 +25,25 @@ ALTER TABLE employees_with_departments DROP COLUMN last_name;
 -- d. What is another way you could have ended up with this same table?
 
 -- 2. Create a temporary table based on the payment table from the sakila database.
--- Write the SQL necessary to transform the amount column such that it is stored as an integer representing the number of cents of the payment. 
 -- For example, 1.99 should become 199.
 
+CREATE TEMPORARY TABLE sakila_payment AS
+SELECT amount
+FROM sakila.payment;
+
+
+/*Write the SQL necessary to transform the amount column such that it is stored as an integer representing the number of cents of the payment. For example, 1.99 should become 199.*/
+
+ALTER TABLE sakila_payment ADD column amount_in_cents INT;
+
+SELECT * FROM sakila_payment
+LIMIT 5;
+
+UPDATE sakila_payment
+SET amount_in_cents = (amount * 100);
+
+SELECT * FROM sakila_payment
+LIMIT 5;
 
 
 

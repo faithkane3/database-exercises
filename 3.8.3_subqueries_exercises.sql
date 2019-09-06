@@ -102,3 +102,22 @@ WHERE dm.to_date='9999-01-01');
 
 -- Bonus 2. Find the first and last name of the employee with the highest salary.
 
+SELECT e.first_name, e.last_name
+FROM employees AS e
+JOIN salaries AS s ON e.emp_no=s.emp_no
+WHERE s.salary =
+(SELECT MAX(s.salary)
+FROM salaries AS s);
+
+-- Bonus 3. Find the department name that the employee with the highest salary works in.
+
+SELECT d.dept_name
+FROM departments AS d
+JOIN dept_emp AS de
+ON d.dept_no=de.dept_no
+JOIN salaries AS s
+ON de.emp_no=s.emp_no
+WHERE s.salary=
+
+		(SELECT MAX(s.salary)
+		FROM salaries AS s);

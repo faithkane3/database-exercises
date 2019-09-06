@@ -121,3 +121,26 @@ WHERE d.dept_no='d001' AND s.to_date='9999-01-01' AND dm.to_date='9999-01-01'
 ORDER BY s.salary DESC
 LIMIT 1;
 
+-- Bonus - This query returns department manager with department title
+SELECT d.dept_name AS 'Department Name', CONCAT(e.first_name, ' ', e.last_name) AS 'Manager Name' 
+FROM employees AS e
+JOIN dept_manager AS dm ON dm.emp_no=e.emp_no
+JOIN departments AS d ON dm.dept_no=d.dept_no
+WHERE e.emp_no IN (
+	SELECT dm.emp_no
+	FROM dept_manager AS dm
+	WHERE dm.to_date='9999-01-01'
+)
+
+-- This query returns employee name with department name and 'Manager Name'
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name', d.dept_name AS 'Department Name', 'Manager Name'
+FROM employees AS e
+JOIN dept_emp AS de ON e.emp_no=de.emp_no
+JOIN departments AS d ON de.dept_no=d.dept_no;
+
+
+-- THis query returns current manager names
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Manager Name'
+FROM employees AS e
+JOIN dept_manager AS dm ON e.emp_no=dm.emp_no
+WHERE dm.to_date='9999-01-01' AND e.emp_no IN (dm.emp_no);

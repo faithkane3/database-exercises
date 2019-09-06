@@ -35,3 +35,13 @@ WHERE employees.first_name IN (
 
 )
 GROUP BY titles.title;
+
+-- 3. Sub query for current employees by name 85,108
+
+SELECT COUNT(e.emp_no) AS 'Employees - Not Current'
+FROM employees AS e
+WHERE e.emp_no IN
+			
+			(SELECT de.emp_no
+			FROM dept_emp AS de
+			WHERE NOT de.to_date='9999-01-01');

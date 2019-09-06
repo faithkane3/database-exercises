@@ -45,3 +45,23 @@ WHERE e.emp_no IN
 			(SELECT de.emp_no
 			FROM dept_emp AS de
 			WHERE NOT de.to_date='9999-01-01');
+-- 4. Find all the current department managers that are female.
+
+-- Answer as a sub query
+SELECT e.first_name, e.last_name
+FROM employees AS e
+WHERE e.emp_no IN
+(
+	SELECT dm.emp_no
+	FROM dept_manager AS dm
+	WHERE dm.to_date='9999-01-01' AND e.gender='F'
+);
+
+-- Answer as a JOIN
+SELECT e.first_name, e.last_name
+FROM employees AS e
+JOIN dept_manager AS dm
+ON e.emp_no=dm.emp_no
+WHERE dm.to_date='9999-01-01' AND e.gender='F';
+
+5. 

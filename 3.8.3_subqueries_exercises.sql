@@ -64,4 +64,29 @@ JOIN dept_manager AS dm
 ON e.emp_no=dm.emp_no
 WHERE dm.to_date='9999-01-01' AND e.gender='F';
 
-5. 
+-- 5. Find all the employees that currently have a higher than average salary.
+-- 154543 rows in total. Here is what the first 5 rows will look like:
+
+SELECT e.first_name, e.last_name, ROUND(s.salary) AS salary
+FROM employees AS e
+JOIN salaries AS s
+ON e.emp_no=s.emp_no
+WHERE s.to_date='9999-01-01' AND s.salary >
+				(SELECT AVG(s.salary)
+				FROM salaries AS s
+				);
+
+-- 6. How many current salaries are within 1 standard deviation of the highest salary? (Hint: you can use a built in function to calculate the standard deviation.) What percentage of all salaries is this?
+-- 78 salaries
+
+-- BONUS 1. Find all the department names that currently have female managers.
+SELECT d.dept_name
+FROM departments AS d
+JOIN dept_manager AS dm 
+ON d.dept_no=dm.dept_no
+JOIN employees AS e
+ON e.emp_no=dm.emp_no
+WHERE e.gender='F' AND dm.emp_no IN (SELECT dm.emp_no
+FROM dept_manager AS dm
+WHERE dm.to_date='9999-01-01');
+

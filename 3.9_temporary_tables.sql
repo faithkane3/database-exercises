@@ -53,6 +53,15 @@ LIMIT 5;
 -- Note to self - (z score = salary - mean(salary) / stdev(salary) ) 
 -- Hint - derive this column in the creatio of the temp table like full_name
 
+CREATE TEMPORARY TABLE stdev_salary
+SELECT dept_name, (
+					(AVG(salary) - (SELECT AVG(salary) FROM employees.salaries)
+					) /
+					(SELECT std(salary) FROM employees.salaries)) AS salary_z_score
+FROM employees.salaries
+JOIN employees.dept_emp USING(emp_no)
+JOIN employees.departments USING(dept_no)
+GROUP BY dept_name;
 
 -- 4. What is the average salary for an employee based on the number of years they have been with the company? 
 -- Express your answer in terms of the Z-score of salary.

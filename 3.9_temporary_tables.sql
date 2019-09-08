@@ -67,6 +67,24 @@ GROUP BY dept_name;
 -- Express your answer in terms of the Z-score of salary.
 -- Since this data is a little older, scale the years of experience by subtracting the minumum from every row.
 
+CREATE TEMPORARY TABLE salary_by_years
+SELECT 
+
+ROUND(
+(DATEDIFF(CURDATE(), hire_date) / 365) - 20) AS years_with_company,
+		
+(AVG(salary) - 
+(SELECT AVG(salary) 
+FROM employees.salaries)) /
+
+(SELECT std(salary) 
+FROM employees.salaries) AS salary_z_score 
+
+FROM employees.employees
+JOIN employees.salaries USING(emp_no)
+JOIN employees.dept_emp USING(emp_no)
+JOIN employees.departments USING(dept_no)
+GROUP BY years_with_company; 
 
 
 -- Lesson: Examples

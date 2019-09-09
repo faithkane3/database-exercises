@@ -304,3 +304,12 @@ SELECT store_id,
 category, film_category, inventory, payment, and rental.)*/
 
 
+SELECT  name,
+		SUM(amount) AS gross_revenue
+	FROM category
+	JOIN film_category USING(category_id)
+	JOIN inventory USING(film_id)
+	JOIN rental USING(inventory_id)
+	JOIN payment USING(rental_id)
+	GROUP BY name
+	ORDER BY gross_revenue DESC;

@@ -6,6 +6,7 @@ Is there any department where the department manager gets paid less than the ave
 
 
 
+
 /*World Database
 Use the world database for the questions below.
 

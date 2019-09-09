@@ -53,13 +53,21 @@ LIMIT 5;
 
 CREATE TEMPORARY TABLE stdev_salary
 SELECT dept_name, (
-				(AVG(salary) - (SELECT AVG(salary) FROM employees.salaries)
-				) /
-				(SELECT std(salary) FROM employees.salaries)) AS salary_z_score
+				(AVG(salary) - 
+								
+				 (SELECT AVG(salary) 
+				  FROM employees.salaries
+				  WHERE to_date>NOW())
+				  ) /
+				 (SELECT std(salary) 
+				  FROM employees.salaries
+				  WHERE to_date>NOW())) AS salary_z_score
 FROM employees.salaries
 JOIN employees.dept_emp USING(emp_no)
 JOIN employees.departments USING(dept_no)
+WHERE salaries.to_date>NOW() AND dept_emp.to_date>NOW()
 GROUP BY dept_name;
+
 
 -- In terms of salary, what is the best department to work for? The worst?
 -- Sales would be the most profitable department to work for and HR the least.

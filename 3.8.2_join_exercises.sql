@@ -130,7 +130,7 @@ WHERE e.emp_no IN (
 	SELECT dm.emp_no
 	FROM dept_manager AS dm
 	WHERE dm.to_date='9999-01-01'
-)
+);
 
 -- This query returns employee name with department name and 'Manager Name'
 SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name', d.dept_name AS 'Department Name', 'Manager Name'
@@ -144,3 +144,5 @@ SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Manager Name'
 FROM employees AS e
 JOIN dept_manager AS dm ON e.emp_no=dm.emp_no
 WHERE dm.to_date='9999-01-01' AND e.emp_no IN (dm.emp_no);
+
+

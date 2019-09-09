@@ -47,38 +47,40 @@ LIMIT 5;
 
 
 
--- 3. Find out how the average pay in each department compares to the overall average pay. 
--- In order to make the comparison easier, you should use the Z-score for salaries. 
--- In terms of salary, what is the best department to work for? The worst?
--- Note to self - (z score = salary - mean(salary) / stdev(salary) ) 
--- Hint - derive this column in the creatio of the temp table like full_name
+/*-3. Find out how the average pay in each department compares to the overall average pay. 
+ In order to make the comparison easier, you should use the Z-score for salaries.*/ 
+
 
 CREATE TEMPORARY TABLE stdev_salary
 SELECT dept_name, (
-					(AVG(salary) - (SELECT AVG(salary) FROM employees.salaries)
-					) /
-					(SELECT std(salary) FROM employees.salaries)) AS salary_z_score
+				(AVG(salary) - (SELECT AVG(salary) FROM employees.salaries)
+				) /
+				(SELECT std(salary) FROM employees.salaries)) AS salary_z_score
 FROM employees.salaries
 JOIN employees.dept_emp USING(emp_no)
 JOIN employees.departments USING(dept_no)
 GROUP BY dept_name;
 
--- 4. What is the average salary for an employee based on the number of years they have been with the company? 
--- Express your answer in terms of the Z-score of salary.
--- Since this data is a little older, scale the years of experience by subtracting the minumum from every row.
+-- In terms of salary, what is the best department to work for? The worst?
+-- Sales would be the most profitable department to work for and HR the least.
+
+
+/*4. What is the average salary for an employee based on the number of years they have been with the company? 
+ Express your answer in terms of the Z-score of salary.
+ Since this data is a little older, scale the years of experience by subtracting the minumum from every row.*/
 
 CREATE TEMPORARY TABLE salary_by_years
 SELECT 
 
-ROUND(
-(DATEDIFF(CURDATE(), hire_date) / 365) - 20) AS years_with_company,
+    ROUND(
+    (DATEDIFF(CURDATE(), hire_date) / 365) - 20) AS years_with_company,
 		
-(AVG(salary) - 
-(SELECT AVG(salary) 
-FROM employees.salaries)) /
+    (AVG(salary) - 
+    (SELECT AVG(salary) 
+    FROM employees.salaries)) /
 
-(SELECT std(salary) 
-FROM employees.salaries) AS salary_z_score 
+    (SELECT std(salary) 
+    FROM employees.salaries) AS salary_z_score 
 
 FROM employees.employees
 JOIN employees.salaries USING(emp_no)

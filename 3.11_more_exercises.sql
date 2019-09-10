@@ -5,13 +5,12 @@ How much do the current managers of each department get paid, relative to the av
 Is there any department where the department manager gets paid less than the average salary?*/
 
 SELECT salary,
-	   CONCAT(first_name, ' ', last_name) AS dept_manager
+	CONCAT(first_name, ' ', last_name) AS dept_manager
 	 
 	 FROM salaries AS s
-	 JOIN dept_manager AS dm
-	 USING(emp_no)
-	 JOIN employees AS e
-	 USING(emp_no)
+	 JOIN dept_manager AS dm USING(emp_no)
+	 JOIN employees AS e USING(emp_no)
+
 	 WHERE s.to_date>NOW() AND 
 	 	   emp_no IN (
 				SELECT emp_no 
@@ -24,18 +23,19 @@ Use the world database for the questions below.
 
 What languages are spoken in Santa Monica*/
 
-SELECT Language, Percentage
-	FROM countrylanguage
-	JOIN city
-	USING(CountryCode)
+SELECT Language, 
+    Percentage
+	
+    FROM countrylanguage
+	JOIN city USING(CountryCode)
+
 WHERE name="Santa Monica"
 ORDER BY Percentage ASC;
 
 /* How many different countries are in each region?*/
 
 SELECT Region,
-	   COUNT(name)
-	   AS num_countries
+	COUNT(name) AS num_countries
 FROM country
 GROUP BY region
 ORDER BY num_countries ASC;

@@ -657,3 +657,72 @@ SELECT first_name,
 	FROM staff
 	LEFT JOIN address USING(address_id)
 	LEFT JOIN city USING(city_id);
+
+/* 1. What is the average replacement cost of a film? */
+
+SELECT AVG(replacement_cost)
+	FROM film;
+
+/*Does this change depending on the rating of the film?  Yes, the replacement cost changes by rating.*/
+
+SELECT AVG(replacement_cost),
+	   rating
+	FROM film
+	GROUP BY rating;
+
+/* 2.  How many different films of each genre are in the database?*/
+
+SELECT name,
+	   COUNT(name)
+	FROM category
+	JOIN film_category USING(category_id)
+	JOIN film USING(film_id)
+	GROUP BY name;
+
+/* 3. What are the 5 frequently rented films?*/
+
+SELECT f.title,
+	   COUNT(*) AS total
+	FROM film AS f
+	JOIN inventory AS i USING(film_id)
+	JOIN rental AS r USING(inventory_id)
+	GROUP BY title
+	ORDER BY total DESC
+	LIMIT 5;
+
+/* 4. What are the most most profitable films (in terms of gross revenue)?*/
+
+SELECT  f.title,
+		SUM(p.amount) AS gross_revenue
+	FROM film AS f
+	JOIN inventory AS i USING(film_id)
+	JOIN rental AS r USING(inventory_id)
+	JOIN payment AS p USING(rental_id)
+	GROUP BY title
+	ORDER BY gross_revenue DESC
+	LIMIT 5;
+
+/* 5. Who is the best customer?*/
+
+SELECT CONCAT(c.last_name, ', ', c.first_name) AS name,
+	   SUM(p.amount) AS total
+	FROM customer AS c
+	JOIN rental AS r USING(customer_id)
+	JOIN payment AS p USING(rental_id)
+	GROUP BY CONCAT(last_name, ', ', first_name)
+	ORDER BY total DESC
+	LIMIT 1;
+
+/* 6. Who are the most popular actors (that have appeared in the most films)?*/
+
+SELECT CONCAT(a.last_name, ', ', a.first_name) AS actor_name,
+	   COUNT(*) AS total
+	FROM actor AS a
+	JOIN film_actor AS fa USING(actor_id)
+	JOIN film AS f USING(film_id)
+	GROUP BY CONCAT(a.last_name, ', ', a.first_name)
+	ORDER BY total DESC
+	LIMIT 5;
+
+/* 7. What are the sales for each store for each month in 2005?*/
+

@@ -726,3 +726,9 @@ SELECT CONCAT(a.last_name, ', ', a.first_name) AS actor_name,
 
 /* 7. What are the sales for each store for each month in 2005?*/
 
+SELECT SUBSTR(payment_date,1,7) AS month,
+	   store_id,
+	   SUM(amount) AS sales
+	FROM payment
+	JOIN staff USING(staff_id)
+	GROUP BY SUBSTR(payment_date,1,7), store_id;

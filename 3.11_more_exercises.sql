@@ -581,7 +581,12 @@ Label customer first_name/last_name columns as customer_first_name/customer_last
 Label actor first_name/last_name columns in a similar fashion.
 returns correct number of records: 599*/
 
-
+SELECT c.first_name AS customer_first_name,
+	   c.last_name AS customer_last_name,
+	   a.first_name AS actor_first_name,
+	   a.last_name AS actor_last_name
+	FROM customer AS c
+	LEFT JOIN actor AS a USING(last_name);
 
 /*Select the customer first_name/last_name and actor first_name/last_name columns 
 from performing a /right join between the customer and actor column 
@@ -589,20 +594,35 @@ on the last_name column in each table. (i.e. customer.last_name = actor.last_nam
 
 returns correct number of records: 200*/
 
+SELECT c.first_name AS customer_first_name,
+	   c.last_name AS customer_last_name,
+	   a.first_name AS actor_first_name,
+	   a.last_name AS actor_last_name
+	FROM customer AS c
+	RIGHT JOIN actor AS a USING(last_name);
+
 /*Select the customer first_name/last_name and actor first_name/last_name columns 
 from performing an inner join between the customer and actor column 
 on the last_name column in each table. (i.e. customer.last_name = actor.last_name)
 
 returns correct number of records: 43*/
 
-
+SELECT c.first_name AS customer_first_name,
+	   c.last_name AS customer_last_name,
+	   a.first_name AS actor_first_name,
+	   a.last_name AS actor_last_name
+	FROM customer AS c
+	JOIN actor AS a USING(last_name);
 
 /*Select the city name and country name columns from the city table, 
 performing a left join with the country table to get the country name column.
 
 Returns correct records: 600*/
 
-
+SELECT city,
+	   country
+	FROM city
+	LEFT JOIN country USING(country_id);
 
 /*Select the title, description, release year, and language name columns 
 from the film table, performing a left join with the language table 
@@ -612,6 +632,12 @@ Label the language.name column as "language"
 
 Returns 1000 rows*/
 
+SELECT title,
+	   description,
+	   release_year,
+	   name AS language
+	FROM film
+	LEFT JOIN language USING(language_id);
 
 
 /*Select the first_name, last_name, address, address2, city name, district, 
@@ -621,3 +647,13 @@ columns.
 
 returns correct number of rows: 2*/
 
+SELECT first_name,
+	   last_name,
+	   address,
+	   address2,
+	   city,
+	   district,
+	   postal_code
+	FROM staff
+	LEFT JOIN address USING(address_id)
+	LEFT JOIN city USING(city_id);
